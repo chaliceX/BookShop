@@ -67,8 +67,7 @@
     </form>
     <!-- end搜索表单 -->
     <!-- 添加表单 -->
-
-    <form class="layui-form" id="addUserForm" style="display:none">
+    <form class="layui-form" id="addUserForm" style="display:none" lay-filter="userForm">
         <div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label">用户名</label>
@@ -91,9 +90,10 @@
                 </div>
             </div>
             <div class="layui-inline">
-                <label class="layui-form-label">性别</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="gender" class="layui-input">
+                <label class="layui-form-label">性别:</label>
+                <div class="layui-input-inline" >
+                    <label class="layui-form-label layui-icon">&#xe662;</label><input type="radio" name="gender" class="layui-input " value="1" title="男"/>
+                    <label class="layui-form-label layui-icon">&#xe661;</label><input type="radio" name="gender" class="layui-input" value="0" title="女"/>
                 </div>
             </div>
         </div>
@@ -107,6 +107,7 @@
         </div>
     </form>
     <!-- end添加表单 -->
+
     <!-- 数据表格 -->
     <table class="layui-table" lay-filter="myTable" id="dataTable"></table>
     <!-- end数据表格 -->
@@ -167,6 +168,28 @@
                         break;
                 };
             });
+
+            //监听行工具栏
+            table.on('tool(myTable)', function (obj) {
+                var data = obj.data;
+                switch (obj.event) {
+                    case 'edit':
+                        openEditForm(data);
+                     
+                        break;
+                }
+            });
+
+            //弹出编辑用户表单
+            function openEditForm(data) {
+                layer.open({
+                    type: 1
+                    , title: '编辑用户'
+                    , content: $('#addUserForm')
+                    , area: ['50%']
+                });
+                form.val('userForm', data);
+            }
     
         });
 
