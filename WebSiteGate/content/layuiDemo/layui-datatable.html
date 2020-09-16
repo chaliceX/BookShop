@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>数据表格</title>
+    <link href="../../resource/layui/css/layui.css" rel="stylesheet" />
+    <script src="../../resource/layui/layui.js"></script>
+</head>
+<body>
+    <table class="layui-table" lay-filter="myTable" id="dataTable"></table>
+
+    <div id="headtoolbar" style="display:none">
+        <input type="button" class="layui-btn" value="添加"/>
+    </div>
+    <div id="coltoolbar" style="display:none">
+        <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </div>
+    <script>
+        layui.use(['table', 'jquery'], function () {
+            var table = layui.table;
+            var $ = layui.jquery;
+
+            table.render({
+                elem: '#dataTable'    //渲染哪个表
+                , url: '/resource/json/datatable_demo.json'   //数据接口
+                , cols: [[  //为什么要俩个数组呢？原来是可以使用二级表头
+                    {"field":"id","title":"编号",}
+                    ,{"field":"username","title":"姓名",}
+                    ,{"field":"email","title":"邮箱",}
+                    ,{"field":"sex","title":"性别",}
+                    ,{"field":"city","title":"家乡",}
+                    , { "field": "sign", "title": "布吉岛", "edit": "true"}
+                    , { "field":"experience","title":"经历",}
+                    , { "field":"ip","title":"IP地址",}
+                    , { "field": "logins", "title": "登录", }
+                    , {"title":"操作","toolbar":"#coltoolbar"}
+                ]]
+                , toolbar: '#headtoolbar'
+                ,page:true
+            })
+        });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>滑块</title>
+    <link href="../../resource/layui/css/layui.css" rel="stylesheet" />>
+    <script src="../../resource/layui/layui.js"></script>
+</head>
+<body>
+    基本滑块<div id="slideTest1" class="demo-slider"></div>
+    有初始值的滑块<div id="slideTest2" class="demo-slider"></div>
+    步长滑块<div id="slideTest3" class="demo-slider"></div>
+    <script>
+        layui.use(["slider"], function () {
+            var slider = layui.slider;
+            slider.render({
+                elem: '#slideTest1'
+
+            });
+
+            var slider = layui.slider;
+            slider.render({
+                elem: '#slideTest2'
+                ,value:30
+            })
+
+            slider.render({
+                elem: '#slideTest3'
+                , value: 70
+                , step: 10  //步长
+                , showstep:true //开启间隔点 
+            });
+
+        })
+    </script>
+</body>
+</html>

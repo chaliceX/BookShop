@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>评分</title>
+    <link href="../../resource/layui/css/layui.css" rel="stylesheet" />
+    <script src="../../resource/layui/layui.js"></script>
+</head>
+<body>
+    <fieldset>
+        <legend>常规评分</legend>
+        <div id="rateTest1">
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend>显示文字</legend>
+        <div id="rateTest2">
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend>允许半星</legend>
+        <div id="rateTest3">
+        </div>
+    </fieldset>
+
+    <script type="text/javascript">
+        layui.use(["rate"], function () {
+            var rate = layui.rate;
+            rate.render({
+                elem: '#rateTest1'
+            });
+            rate.render({
+                elem: '#rateTest2'
+                , value: 2
+                ,text:true
+            });
+            rate.render({
+                elem: '#rateTest3'
+                , half: true
+                , value: 2.5
+            });
+        });
+    </script>
+</body>
+</html>

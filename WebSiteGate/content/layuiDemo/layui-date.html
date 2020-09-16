@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>日期模块</title>
+    <link href="../../resource/layui/css/layui.css" rel="stylesheet" />
+    <script src="../../resource/layui/layui.js"></script>
+</head>
+<body>
+    <br />
+    <div class="layui-form">
+        <div class="layui-form-item">
+
+            <div class="layui-inline">
+
+                <label class="layui-form-label">版标准</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" id="test1" />
+                </div>
+
+
+                <label class="layui-form-label">邵到版</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" id="test2" />
+                </div>
+                <!--<input type="text" class="layui-input" id="test3" />-->
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        layui.use(['laydate'], function () {
+            var laydate = layui.laydate;
+
+            //render渲染
+            laydate.render({
+                elem:"#test1"
+            });
+
+            laydate.render({
+                elem: '#test2'
+                , value: new Date()
+                ,type:'datetime'
+                , min: -8
+                , max: 7
+                , format: 'yyyy年MM月dd日 HH时mm分ss秒'
+                , theme: '#0000FF'
+                , mark: {'0-0-12':'公鸡日'}
+            })
+        });
+    </script>
+</body>
+</html>

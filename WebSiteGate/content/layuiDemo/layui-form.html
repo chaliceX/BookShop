@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>表单元素</title>
+    <link href="../../resource/layui/css/layui.css" rel="stylesheet" />
+    <script src="../../resource/layui/layui.js"></script>
+</head>
+<body>
+    <form class="layui-form layui-form-pane">
+        <div class="layui-form-item">
+            <label class="layui-form-label">整行输入框</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" placeholder="放心输入吧" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">一行多输入框</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" />
+            </div>
+
+            <label class="layui-form-label">一行多输框</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" />
+            </div>
+
+            <label class="layui-form-label">一行多输框</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" />
+            </div>
+        </div>
+
+
+        <!-- 多选与单选 -->
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">单选按钮</label>
+                <div class="layui-input-inline">
+                    <input type="radio" class="layui-radio" name="sex" checked="checked" />
+                    <input type="radio" class="layui-radio" name="sex" />
+                </div>
+            </div>
+        </div>
+
+        <!-- 下拉选 -->
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">下拉选</label>
+                <div class="layui-input-inline">
+                    <select name="habbits" class="layui-input">
+                        <option></option>
+                        <option value="1">钓鱼</option>
+                        <option value="2">引战</option>
+                        <option value="3">歧视</option>
+                        <option value="4">女权</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">下拉选</label>
+                <div class="layui-input-inline">
+                    <select name="habbits" class="layui-input">
+                        <option></option>
+                        <option value="1">钓鱼</option>
+                        <option value="2">引战</option>
+                        <option value="3">歧视</option>
+                        <option value="4">女权</option>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">下拉选</label>
+            <div class="layui-input-block">
+                <select name="habbit" class="layui-input">
+                    <option></option>
+                    <option value="1">钓鱼</option>
+                    <option value="2">引战</option>
+                    <option value="3">歧视</option>
+                    <option value="4">女权</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- 复选开关 -->
+        <div class="layui-form-item">
+            <label class="layui-form-label">电闸开关</label>
+            <div class="layui-inline">
+                <input type="checkbox" class="layui-input" title="总电闸" name="switchone" value="1" checked="checked" />
+                <input type="checkbox" class="layui-input" title="电闸1" name="switchtwo" value="1" />
+                <input type="checkbox" class="layui-input" title="电闸2" name="switchthree" value="1" />
+            </div>
+
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">开关</label>
+            <div class="layui-input-block">
+                <input type="checkbox" name="close" lay-skin="switch" lay-text="ON|OFF" checked="checked">
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">文本域</label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入内容" class="layui-textarea" id="editArea"></textarea>
+            </div>
+        </div>
+    </form>
+    <script>
+        layui.use(['form','layedit'], function () {
+            var form = layui.form;
+            var layedit = layui.layedit;
+
+            //创建edit框框
+            layedit.build('editArea');
+        });
+    </script>
+</body>
+</html>

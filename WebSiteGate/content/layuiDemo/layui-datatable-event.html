@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>数据表事件</title>
+    <link href="../../resource/layui/css/layui.css" rel="stylesheet" />
+    <script src="../../resource/layui/layui.js"></script>
+</head>
+<body>
+    <table class="layui-table" lay-filter="myTable" id="dataTable"></table>
+
+    <div id="headtoolbar" style="display:none">
+        <input type="button" class="layui-btn" value="添加" lay-event="add" />
+        <input type="button" class="layui-btn" value="批量删除" lay-event="batchdelete" />
+        <input type="button" class="layui-btn layui-bg-orange" value="刷新表格" lay-event="reloadTable" />
+        <input type="button" class="layui-btn layui-bg-blue" value="当前选中行" lay-event="getSelectedRows" />
+    </div>
+    <div id="coltoolbar" style="display:none">
+        <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
+    </div>
+    <script>
+        layui.use(['table', 'jquery','layer'], function () {
+            var table = layui.table;
+            var $ = layui.jquery;
+            var layer = layui.layer;
+
+            table.render({
+                elem: '#dataTable'    //渲染哪个表
+                , url: '/resource/json/datatable_demo.json'   //数据接口
+                , cols: [[  //为什么要俩个数组呢？原来是可以使用二级表头
+                    {"type":"checkbox"}
+                    ,{"field":"id","title":"编号",}
+                    ,{"field":"username","title":"姓名",}
+                    ,{"field":"email","title":"邮箱",}
+                    ,{"field":"sex","title":"性别",}
+                    ,{"field":"city","title":"家乡",}
+                    , { "field": "sign", "title": "布吉岛", "edit": "true"}
+                    , { "field":"experience","title":"经历",}
+                    , { "field":"ip","title":"IP地址",}
+                    , { "field": "logins", "title": "登录", }
+                    , {"title":"操作","toolbar":"#coltoolbar"}
+                ]]
+                , toolbar: '#headtoolbar'
+                ,page:true
+            })
+
+            //监听表头事件
+            table.on('toolbar(myTable)', function (obj) {   //输入的是lay-filter
+                var checkStatus = table.checkStatus(obj.config.id);
+                switch (obj.event) {
+                    case 'add':
+                        layer.msg('添加');
+                        break;
+                    case 'batchdelete':
+                        layer.msg('批量删除');
+                        break;
+                    case 'reloadTable':
+                        table.reload('dataTable');  //说起来真是怪，现在又要ID来
+                        break;
+                    case 'getSelectedRows':
+                        var checkStatus = table.checkStatus('idTest'); //idTest 即为基础参数 id 对应的值
+
+                        console.log(checkStatus.data) //获取选中行的数据
+                        console.log(checkStatus.data.length) //获取选中行数量，可作为是否有选中行的条件
+                        console.log(checkStatus.isAll) //表格是否全选
+                        break;
+
+                };
+            });
+
+            //监听复选框事件
+            table.on('checkbox(myTable)', function (obj) {
+                console.log(obj.checked); //当前是否选中状态
+                console.log(obj.data); //选中行的相关数据
+                console.log(obj.type); //如果触发的是全选，则为：all，如果触发的是单选，则为：one
+            });
+
+
+            //单元格编辑事件（前提是得有单元格的edit:true开启了）
+            table.on('edit(myTable)', function (obj) { //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
+                console.log(obj.value); //得到修改后的值
+                console.log(obj.field); //当前编辑的字段名
+                console.log(obj.data); //所在行的所有相关数据  
+            });
+
+            //表格行的但双击事件，注意：一般双击必定先单击了，so，这个事件只要注册一个就好了
+            layui.code
+            //监听行单击事件
+            table.on('row(myTable)', function (obj) {
+                //console.log(obj.tr) //得到当前行元素对象
+                //console.log(obj.data) //得到当前行数据
+                //obj.del(); //删除当前行
+                //obj.update(fields) //修改当前行数据
+            });
+
+            //监听行双击事件
+            table.on('rowDouble(myTable)', function (obj) {
+                layer.msg("刚刚是您双击了吗");
+                console.log(obj.tr) //得到当前行元素对象
+                console.log(obj.data) //得到当前行数据
+                obj.del(); //删除当前行
+                obj.update(fields) //修改当前行数据
+            });
+
+            //监听行工具条 
+            table.on('tool(myTable)', function (obj) { //注：tool 是工具条事件名，myTable 是 table 原始容器的属性 lay-filter="对应的值"
+                var data = obj.data; //获得当前行数据
+                var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+                var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+
+                if (layEvent === 'detail') { //查看
+                    //do somehing
+                } else if (layEvent === 'delete') { //删除
+                    layer.confirm('真的删除行么', function (index) {
+                        obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                        layer.close(index);
+                        //向服务端发送删除指令
+                    });
+                } else if (layEvent === 'edit') { //编辑
+                    //do something
+                    layer.alert("编辑功能开发中"); 
+                    //同步更新缓存对应的值
+                    //obj.update({
+                    //    username: '123'
+                    //    , title: 'xxx'
+                    //});
+                } else if (layEvent === 'LAYTABLE_TIPS') {
+                    layer.alert('Hi，头部工具栏扩展的右侧图标。');
+                }
+            });
+
+
+
+        });
+
+    </script>
+</body>
+</html>

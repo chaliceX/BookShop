@@ -1,0 +1,175 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>展示用户数据</title>
+    <link href="../../resource/layui/css/layui.css" rel="stylesheet" />
+    <script src="../../resource/layui/layui.js"></script>
+</head>
+<body>
+
+    <!-- 搜索表单 -->
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>表单集合演示</legend>
+    </fieldset>
+    <form class="layui-form" id="searchForm">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">编号</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="id" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">用户名</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="username" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">验证邮箱</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="email" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">开始时间</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="startTime" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">结束时间</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="endTime" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">性别</label>
+                <div class="layui-input-inline">
+                    <input type="radio" name="sex" value="男" title="男">
+                    <input type="radio" name="sex" value="女" title="女">
+                    <input type="radio" name="sex" value="禁" title="禁用" disabled="">
+                </div>
+            </div>
+        </div>
+        <div class="layui-item" style="text-align:center">
+            <div class="layui-input-inline" style="text-align:center">
+                <input type="button" class="layui-input layui-bg-blue layui-icon" value="&#xe615;搜索 " id="searchBtn" />
+            </div>
+            <div class="layui-input-inline" style="text-align:center">
+                <input type="reset" class="layui-input layui-bg-orange layui-icon" value="&#xe669;重置 " id="resetBtn" />
+            </div>
+        </div>
+
+    </form>
+    <!-- end搜索表单 -->
+    <!-- 添加表单 -->
+
+    <form class="layui-form" id="addUserForm" style="display:none">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">用户名</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="username" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">邮箱</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="email" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">城市</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="city" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">性别</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="gender" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-item" style="text-align:center">
+            <div class="layui-input-inline" style="text-align:center">
+                <input type="button" class="layui-input layui-bg-blue layui-icon " value="&#xe605;保存 " id="saveBtn" />
+            </div>
+            <div class="layui-input-inline" style="text-align:center">
+                <input type="reset" class="layui-input layui-bg-orange layui-icon" value="&#x1006;重置 " id="addFormReset" />
+            </div>
+        </div>
+    </form>
+    <!-- end添加表单 -->
+    <!-- 数据表格 -->
+    <table class="layui-table" lay-filter="myTable" id="dataTable"></table>
+    <!-- end数据表格 -->
+
+
+    <div id="headtoolbar" style="display:none">
+        <input type="button" class="layui-btn" value="添加" lay-event="add" />
+        <input type="button" class="layui-btn layui-bg-red" value="批量删除" lay-event="batchDelete" />
+    </div>
+    <div id="coltoolbar" style="display:none">
+        <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </div>
+    <script>
+        layui.use(['table', 'jquery','layer','form'], function () {
+            var table = layui.table;
+            var $ = layui.jquery;
+            var layer = layui.layer;
+            var form = layui.form;
+
+            table.render({
+                elem: '#dataTable'    //渲染哪个表
+                , url: '/resource/json/datatable_demo.json'   //数据接口
+                , cols: [[  //为什么要俩个数组呢？原来是可以使用二级表头
+                    { "field": "id", "title": "编号", }
+                    , { "field": "username", "title": "姓名", }
+                    , { "field": "email", "title": "邮箱", }
+                    , { "field": "sex", "title": "性别", }
+                    , { "field": "city", "title": "家乡", }
+                    , { "field": "sign", "title": "布吉岛", "edit": "true" }
+                    , { "field": "experience", "title": "经历", }
+                    , { "field": "ip", "title": "IP地址", }
+                    , { "field": "logins", "title": "登录", }
+                    , { "title": "操作", "toolbar": "#coltoolbar" }
+                ]]
+                , toolbar: '#headtoolbar'
+                , page: true
+            })
+
+            //监听表头工具栏
+            table.on('toolbar(myTable)', function (obj) {
+                var checkStatus = table.checkStatus(obj.config.id);
+                switch (obj.event) {
+                    case 'add':
+                        layer.open({
+                            type:1
+                            ,title: '添加用户'
+                            , content: $('#addUserForm')
+                            ,area:['50%']
+                        });
+                        break;
+                    case 'delete':
+                        layer.msg('删除');
+                        break;
+                    case 'update':
+                        layer.msg('编辑');
+                        break;
+                };
+            });
+    
+        });
+
+    </script>
+</body>
+</html>
