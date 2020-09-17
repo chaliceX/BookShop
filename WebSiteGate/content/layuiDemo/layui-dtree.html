@@ -2,9 +2,44 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title></title>
+    <title>Hello 树先生</title>
+    <link href="../../resource/layui/css/layui.css" rel="stylesheet" />
+    <link href="../../resource/layui_ext/dtree/dtree.css" rel="stylesheet" />
+    <link href="../../resource/layui_ext/dtree/font/dtreefont.css" rel="stylesheet" />
+    <script src="../../resource/layui/layui.js"></script>
+    <script src="../../resource/layui_ext/dtree/dtree.js"></script>
 </head>
 <body>
+<ul id="demoTree" class="dtree" ></ul>    
 
+<script type="text/javascript">
+        layui.extend({
+            dtree: '/resource/layui_ext/dtree/dtree'   // {/}的意思即代表采用自有路径，即不跟随 base 路径
+        }).use(['dtree', 'layer', 'jquery'], function () {
+            var dtree = layui.dtree, layer = layui.layer, $ = layui.jquery;
+
+
+            // 初始化树
+            var DemoTree = dtree.render({
+                elem: "#demoTree",
+                //data: demoTree, // 使用data加载
+                url: "/resource/json/dtree1.json" // 使用url加载（可与data加载同时存在）
+                , method: 'GET'  //靠，默认的竟然是post请求，布吉岛咋回事
+                , checkbar: true
+                , checkbarType: "all" // 默认就是all，其他的值为： no-all  p-casc   self  only
+                , initLevel:1   //设置初始展开层级
+
+            });
+
+            dtree.on("node('demoTree')", function (obj) {
+                alert((obj.param)); // 点击当前节点传递的参数
+                console.log(obj.dom); // 当前节点的jquery对象
+                console.log(obj.childParams); // 当前节点的所有子节点参数
+                console.log(obj.parentParam); // 当前节点的父节点参数
+            });
+
+        })
+
+    </script>
 </body>
 </html>

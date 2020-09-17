@@ -194,6 +194,12 @@
     <Content Include="resource\layui\lay\modules\tree.js" />
     <Content Include="resource\layui\lay\modules\upload.js" />
     <Content Include="resource\layui\lay\modules\util.js" />
+    <Content Include="resource\layui_ext\dist\dtree.js" />
+    <Content Include="resource\layui_ext\dtree\dtree.css" />
+    <Content Include="resource\layui_ext\dtree\dtree.js" />
+    <Content Include="resource\layui_ext\dtree\font\dtreefont.css" />
+    <Content Include="resource\layui_ext\dtree\font\dtreefont.svg" />
+    <Content Include="resource\layui_ext\dtree\开发者日志.txt" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -215,6 +221,11 @@
     <Content Include="resource\layui\font\iconfont.woff2" />
     <Content Include="resource\json\photos_blackpink.json" />
     <Content Include="resource\json\datatable_demo.json" />
+    <Content Include="resource\json\dtree1.json" />
+    <Content Include="resource\layui_ext\dtree\font\dtreefont.eot" />
+    <Content Include="resource\layui_ext\dtree\font\dtreefont.ttf" />
+    <Content Include="resource\layui_ext\dtree\font\dtreefont.woff" />
+    <Content Include="resource\layui_ext\dtree\font\icons.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
