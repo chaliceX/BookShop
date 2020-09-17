@@ -74,6 +74,7 @@
     <Content Include="content\layuiDemo\layui-datatable-event.html" />
     <Content Include="content\layuiDemo\layui-datatable.html" />
     <Content Include="content\layuiDemo\layui-date.html" />
+    <Content Include="content\layuiDemo\layui-dtree.html" />
     <Content Include="content\layuiDemo\layui-form.html" />
     <Content Include="content\layuiDemo\layui-formEvent.html" />
     <Content Include="content\layuiDemo\layui-layer.html" />
@@ -82,6 +83,7 @@
     <Content Include="content\layuiDemo\layui-showUserList.html" />
     <Content Include="content\layuiDemo\layui-slide.html" />
     <Content Include="content\layuiDemo\layui-timeline.html" />
+    <Content Include="content\layuiDemo\layui-upload.html" />
     <Content Include="resource\image\blackpink.jpg" />
     <Content Include="resource\image\blackpink2.jpg" />
     <Content Include="resource\image\blackpink3.jpg" />
@@ -195,9 +197,17 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ashx\HandleUploadFile.ashx.cs">
+      <DependentUpon>HandleUploadFile.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="ashx\HandleUser.ashx.cs">
+      <DependentUpon>HandleUser.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ashx\HandleUser.ashx" />
+    <Content Include="ashx\HandleUploadFile.ashx" />
     <None Include="packages.config" />
     <Content Include="resource\layui\font\iconfont.eot" />
     <Content Include="resource\layui\font\iconfont.ttf" />

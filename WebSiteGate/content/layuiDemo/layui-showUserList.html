@@ -57,17 +57,58 @@
         </div>
         <div class="layui-item" style="text-align:center">
             <div class="layui-input-inline" style="text-align:center">
-                <input type="button" class="layui-input layui-bg-blue layui-icon" value="&#xe615;搜索 " id="searchBtn" />
+                <input type="button" class="layui-btn layui-bg-blue layui-icon" value="&#xe615;搜索 " id="searchBtn" />
             </div>
             <div class="layui-input-inline" style="text-align:center">
-                <input type="reset" class="layui-input layui-bg-orange layui-icon" value="&#xe669;重置 " id="resetBtn" />
+                <input type="reset" class="layui-btn layui-bg-orange layui-icon" value="&#xe669;重置 " id="resetBtn" />
             </div>
         </div>
 
     </form>
     <!-- end搜索表单 -->
     <!-- 添加表单 -->
-    <form class="layui-form" id="addUserForm" style="display:none" lay-filter="userForm">
+    <form class="layui-form" id="addUserForm" style="display:none" lay-filter="addUserForm">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">用户名</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="username" lay-verify="required" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">邮箱</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="email" lay-verify="email" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">城市</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="city" lay-varify="required" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">性别:</label>
+                <div class="layui-input-inline" >
+                    <label class="layui-form-label layui-icon">&#xe662;</label><input type="radio" name="gender" class="layui-input " value="1" title="男"/>
+                    <label class="layui-form-label layui-icon">&#xe661;</label><input type="radio" name="gender" class="layui-input" value="0" title="女"/>
+                </div>
+            </div>
+        </div>
+        <div class="layui-item" style="text-align:center">
+            <div class="layui-input-inline" style="text-align:center">
+                <input type="button" class="layui-btn layui-bg-blue layui-icon" lay-submit lay-filter="addSubmit" value="&#xe605;保存 "  />
+            </div>
+            <div class="layui-input-inline" style="text-align:center">
+                <input type="reset" class="layui-btn layui-bg-orange layui-icon" value="&#x1006;重置 "  />
+            </div>
+        </div>
+    </form>
+    <!-- end添加表单 -->
+    <!-- 编辑表单 -->
+    <form class="layui-form" id="editUserForm" style="display:none" lay-filter="editUserForm">
         <div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label">用户名</label>
@@ -99,14 +140,14 @@
         </div>
         <div class="layui-item" style="text-align:center">
             <div class="layui-input-inline" style="text-align:center">
-                <input type="button" class="layui-input layui-bg-blue layui-icon " value="&#xe605;保存 " id="saveBtn" />
+                <input type="button" class="layui-btn layui-bg-blue layui-icon" lay-submit lay-filter="submitEdit" value="&#xe605;保存 " id="saveBtn" />
             </div>
             <div class="layui-input-inline" style="text-align:center">
-                <input type="reset" class="layui-input layui-bg-orange layui-icon" value="&#x1006;重置 " id="addFormReset" />
+                <input type="reset" class="layui-btn layui-bg-orange layui-icon" value="&#x1006;重置 " id="addFormReset" />
             </div>
         </div>
     </form>
-    <!-- end添加表单 -->
+    <!-- end编辑表单 -->
 
     <!-- 数据表格 -->
     <table class="layui-table" lay-filter="myTable" id="dataTable"></table>
@@ -120,7 +161,7 @@
     <div id="coltoolbar" style="display:none">
         <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
     </div>
     <script>
         layui.use(['table', 'jquery','layer','form'], function () {
@@ -130,35 +171,29 @@
             var form = layui.form;
 
             table.render({
-                elem: '#dataTable'    //渲染哪个表
-                , url: '/resource/json/datatable_demo.json'   //数据接口
-                , cols: [[  //为什么要俩个数组呢？原来是可以使用二级表头
-                    { "field": "id", "title": "编号", }
-                    , { "field": "username", "title": "姓名", }
-                    , { "field": "email", "title": "邮箱", }
-                    , { "field": "sex", "title": "性别", }
-                    , { "field": "city", "title": "家乡", }
-                    , { "field": "sign", "title": "布吉岛", "edit": "true" }
-                    , { "field": "experience", "title": "经历", }
-                    , { "field": "ip", "title": "IP地址", }
-                    , { "field": "logins", "title": "登录", }
-                    , { "title": "操作", "toolbar": "#coltoolbar" }
-                ]]
-                , toolbar: '#headtoolbar'
-                , page: true
-            })
+                elem: '#dataTable' //渲染哪个表
+                ,
+                url: '/resource/json/datatable_demo.json' //数据接口
+                ,
+                cols: [
+                    [//为什么要俩个数组呢？原来是可以使用二级表头
+                        { "field": "id", "title": "编号" }, { "field": "username", "title": "姓名" },
+                        { "field": "email", "title": "邮箱" }, { "field": "sex", "title": "性别" },
+                        { "field": "city", "title": "家乡" }, { "field": "sign", "title": "布吉岛", "edit": "true" },
+                        { "field": "experience", "title": "经历"}, { "field": "ip", "title": "IP地址" },
+                        { "field": "logins", "title": "登录" }, { "title": "操作", "toolbar": "#coltoolbar" }
+                    ]
+                ],
+                toolbar: '#headtoolbar',
+                page: true
+            });
 
             //监听表头工具栏
             table.on('toolbar(myTable)', function (obj) {
                 var checkStatus = table.checkStatus(obj.config.id);
                 switch (obj.event) {
                     case 'add':
-                        layer.open({
-                            type:1
-                            ,title: '添加用户'
-                            , content: $('#addUserForm')
-                            ,area:['50%']
-                        });
+                        openAddUserForm();
                         break;
                     case 'delete':
                         layer.msg('删除');
@@ -169,26 +204,68 @@
                 };
             });
 
+            var index;
             //监听行工具栏
             table.on('tool(myTable)', function (obj) {
                 var data = obj.data;
                 switch (obj.event) {
                     case 'edit':
                         openEditForm(data);
-                     
                         break;
+                    case 'delete':
+                        deleteUser(data);
                 }
             });
 
+            //监听添加表单提交
+            form.on('submit(addSubmit)',
+                function(data) {
+                    alert(JSON.stringify(data.field));
+                    //使用ajax提交数据
+                    $.ajax({
+                        type: 'POST',
+                        url: '/ashx/HandleUser.ashx',
+                        data: data.field,
+                        success: function() {
+                            //成功了需要关闭弹窗表单和重新加载数据
+                            //1.关闭弹窗,清空表单现有数据
+                            document.getElementById('addUserForm').reset();
+                            layer.close(index);
+
+                            //2.重新加载数据
+                            table.reload('dataTable');
+                        }
+
+                    });
+                });
+
             //弹出编辑用户表单
             function openEditForm(data) {
-                layer.open({
+                index = layer.open({
                     type: 1
                     , title: '编辑用户'
+                    , content: $('#editUserForm')
+                    , area: ['50%']
+                });
+                form.val('editUserForm', data);
+            }
+
+            //弹出添加用户界面
+            function openAddUserForm() {
+
+                index = layer.open({
+                    type: 1
+                    , title: '添加用户'
                     , content: $('#addUserForm')
                     , area: ['50%']
                 });
-                form.val('userForm', data);
+
+                //打开成功
+            }
+
+            //删除用户
+            function deleteUser(data) {
+                alert(data.id);
             }
     
         });
